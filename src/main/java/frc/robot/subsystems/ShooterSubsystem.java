@@ -14,9 +14,9 @@ public class ShooterSubsystem implements WController {
     private final WScheduler sched;
 
     public ShooterSubsystem(WScheduler sched) {
-        sched.registerController(this);
         this.sched = sched;
         mFlywheel = new TalonSRX(10);
+        sched.registerController(this);
     }
 
     public void initialize() {

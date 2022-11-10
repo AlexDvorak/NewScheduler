@@ -15,6 +15,7 @@ public class TowerSubsytem implements WController {
     public TowerSubsytem(WScheduler wsc) {
         this.sched = wsc;
         mChute = new TalonSRX(5);
+        wsc.registerController(this);
     }
 
     public void initialize() {

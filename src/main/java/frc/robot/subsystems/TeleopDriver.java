@@ -12,6 +12,7 @@ public class TeleopDriver implements WController {
 
     public TeleopDriver(WScheduler wsc) {
         this.wsc = wsc;
+        wsc.registerController(this);
     }
 
     public void initialize() {
