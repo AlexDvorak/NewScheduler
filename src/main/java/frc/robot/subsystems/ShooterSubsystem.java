@@ -5,8 +5,9 @@ import frc.robot.util.WScheduler;
 
 public class ShooterSubsystem implements WController {
 
-    private boolean readyToShoot;
+    private TalonSRX a;
     private int setpointRPM;
+    private int currentRPM;
     private final WScheduler sched;
 
     public ShooterSubsystem(WScheduler sched) {
@@ -15,28 +16,14 @@ public class ShooterSubsystem implements WController {
     }
 
     public void initialize() {
-        sched.register(this::listenShot, "Target/ReadyShoot");
-        sched.register(this::listenRPM, "Shooter/TargetRPM");
-    }
-
-    public void listenShot(double ready) {
-        readyToShoot = ready == 1.0;
-        System.out.print("Ready To Shoot: ");
-        System.out.println(readyToShoot);
-    }
-
-    public void listenRPM(double rpm) {
-        setpointRPM = (int)rpm;
-        System.out.print("Set Target RPM to:");
-        System.out.println(setpointRPM);
+        sched.register((rpm) -> setpointRPM = rpm.intValue(), "Shooter/TargetRPM");
+        sched.putEntry("Shooter/AtRPM", 0);
     }
 
     public void periodic() {
-        if (readyToShoot) {
-            // spinup motor
-            System.out.println("Shooter: spinning up");
-            if (setpointRPM > 0) // pretend to compare against motor RPM
-                System.out.println("Shooter: Up to speed");
+        boolean atRPM = currentRPM < setpointRPM + 50 && currentRPM > setpointRPM - 50;
+        if (setpointRPM > 0 && atRPM) {
+            sched.putEntry("Shooter/AtRPM", 1);
         }
     }
 }

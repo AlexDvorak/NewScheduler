@@ -22,9 +22,9 @@ public class TeleopDriver implements WController {
     }
 
     public void periodic() {
-        if (btnA.get()) wsc.updateEntry("Shooter/TargetRPM", 3000);
-        if (btnB.get()) wsc.updateEntry("Shooter/TargetRPM", 2000);
-        if (btnX.get()) wsc.updateEntry("Driver/EnableShot", 1);
+        if (btnA.get()) wsc.putEntry("Shooter/TargetRPM", 3000);
+        if (btnB.get()) wsc.putEntry("Shooter/TargetRPM", 2000);
+        if (btnX.get()) wsc.putEntry("Driver/EnableShot", 1);
     }
 
 }
