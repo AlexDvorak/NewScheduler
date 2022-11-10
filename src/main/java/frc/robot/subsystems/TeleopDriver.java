@@ -7,7 +7,7 @@ import frc.robot.util.WScheduler;
 
 public class TeleopDriver implements WController {
 
-    private WJoystickButton btnA, btnB, btnX;
+    private WJoystickButton btnA, btnB;
     private final WScheduler wsc;
 
     public TeleopDriver(WScheduler wsc) {
@@ -18,13 +18,22 @@ public class TeleopDriver implements WController {
         XboxController driver = new XboxController(0);
         btnA = new WJoystickButton(driver, XboxController.Button.kA.value);
         btnB = new WJoystickButton(driver, XboxController.Button.kB.value);
-        btnX = new WJoystickButton(driver, XboxController.Button.kX.value);
     }
 
     public void periodic() {
-        if (btnA.get()) wsc.putEntry("Shooter/TargetRPM", 3000);
-        if (btnB.get()) wsc.putEntry("Shooter/TargetRPM", 2000);
-        if (btnX.get()) wsc.putEntry("Driver/EnableShot", 1);
+        if (btnA.get())
+            shootRPM(2000);
+        if (btnB.get())
+            shootRPM(3000);
+        if (!btnA.get() && !btnB.get()) {
+            wsc.putEntry("Shooter/TargetRPM", 0);
+            wsc.putEntry("ShotController/FireAtWill", 0);
+        }
+    }
+
+    private void shootRPM(double rpm) {
+        wsc.putEntry("Shooter/TargetRPM", rpm);
+        wsc.putEntry("ShotController/FireAtWill", 1);
     }
 
 }

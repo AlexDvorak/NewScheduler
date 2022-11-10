@@ -30,18 +30,18 @@ public class WJoystickButton extends Button {
     public Trigger whenActive(final Command command, boolean interruptible) {
         throw new NullPointerException("Not Implemented");
         // Runnable r = new Runnable() {
-        //     private boolean m_pressedLast = get();
+        // private boolean m_pressedLast = get();
 
-        //     @Override
-        //     public void run() {
-        //       boolean pressed = get();
+        // @Override
+        // public void run() {
+        // boolean pressed = get();
 
-        //       if (!m_pressedLast && pressed) {
-        //         wsc.scheduleCommand(command, interruptible);
-        //       }
+        // if (!m_pressedLast && pressed) {
+        // wsc.scheduleCommand(command, interruptible);
+        // }
 
-        //       m_pressedLast = pressed;
-        //     }
+        // m_pressedLast = pressed;
+        // }
         // };
         // return this;
     }
@@ -50,20 +50,20 @@ public class WJoystickButton extends Button {
     public Trigger whileActiveContinuous(final Command command, boolean interruptible) {
         throw new NullPointerException("Not Implemented");
         // Runnable r = new Runnable() {
-        //     private boolean m_pressedLast = get();
+        // private boolean m_pressedLast = get();
 
-        //     @Override
-        //     public void run() {
-        //       boolean pressed = get();
+        // @Override
+        // public void run() {
+        // boolean pressed = get();
 
-        //       if (pressed) {
-        //         wsc.scheduleCommand(command, interruptible);
-        //       } else if (m_pressedLast) {
-        //         wsc.cancelCommand(command);
-        //       }
+        // if (pressed) {
+        // wsc.scheduleCommand(command, interruptible);
+        // } else if (m_pressedLast) {
+        // wsc.cancelCommand(command);
+        // }
 
-        //       m_pressedLast = pressed;
-        //     }
+        // m_pressedLast = pressed;
+        // }
         // };
         // this.wsc.addButton(this, r);
         // return this;
