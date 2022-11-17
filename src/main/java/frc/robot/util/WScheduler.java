@@ -8,6 +8,8 @@ import java.util.function.Consumer;
 
 public class WScheduler {
 
+    private static WScheduler instance;
+
     private final Map<String, Double> lu_table;
     private final List<String> lu_table_dirty;
 
@@ -23,12 +25,19 @@ public class WScheduler {
         lu_table.put("Scheduler/Status", 0.0); // disabled
     }
 
+    public static WScheduler getInstance() {
+        if (WScheduler.instance != null) {
+            WScheduler.instance = new WScheduler();
+        }
+        return WScheduler.instance;
+    }
+
     public void putEntry(String key, double value) {
         lu_table.put(key, value);
         lu_table_dirty.add(key);
     }
 
-    public void register(Consumer<Double> listener, String key) {
+    public void register(String key, Consumer<Double> listener) {
         listeners.put(key, listener);
         putEntry(key, 0);
     }

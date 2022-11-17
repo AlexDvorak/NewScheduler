@@ -3,23 +3,16 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import frc.robot.util.WController;
-import frc.robot.util.WScheduler;
+import frc.robot.util.WBaseController;
 
-public class TowerSubsytem implements WController {
+public class TowerSubsytem extends WBaseController {
 
-    private final WScheduler sched;
     private boolean enabled;
     private TalonSRX mChute;
 
-    public TowerSubsytem(WScheduler wsc) {
-        this.sched = wsc;
-        mChute = new TalonSRX(5);
-        wsc.registerController(this);
-    }
-
     public void initialize() {
-        sched.register((run) -> enabled = run == 1.0, "Tower/RunTower");
+        mChute = new TalonSRX(5);
+        this.subscribe("Tower/RunTower", (run) -> enabled = run == 1.0);
     }
 
     public void periodic() {

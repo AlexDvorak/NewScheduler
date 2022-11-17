@@ -3,25 +3,17 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import frc.robot.util.WController;
-import frc.robot.util.WScheduler;
+import frc.robot.util.WBaseController;
 
-public class ShooterSubsystem implements WController {
+public class ShooterSubsystem extends WBaseController {
 
     private TalonSRX mFlywheel;
     private int setpointRPM, currentRPM;
 
-    private final WScheduler sched;
-
-    public ShooterSubsystem(WScheduler sched) {
-        this.sched = sched;
-        mFlywheel = new TalonSRX(10);
-        sched.registerController(this);
-    }
-
     public void initialize() {
-        sched.register((rpm) -> setpointRPM = rpm.intValue(), "Shooter/TargetRPM");
-        sched.putEntry("Shooter/AtRPM", 0);
+        mFlywheel = new TalonSRX(10);
+        this.subscribe("Shooter/TargetRPM", (rpm) -> setpointRPM = rpm.intValue());
+        this.publish("Shooter/AtRPM", 0);
     }
 
     public void periodic() {
@@ -31,7 +23,7 @@ public class ShooterSubsystem implements WController {
 
         final boolean atRPM = currentRPM < setpointRPM + 50 && currentRPM > setpointRPM - 50;
         if (setpointRPM > 0 && atRPM) {
-            sched.putEntry("Shooter/AtRPM", 1);
+            this.publish("Shooter/AtRPM", 1);
         }
     }
 
